@@ -1,25 +1,12 @@
-# use ubuntu 20 AMI for EC2 instance
-data "aws_ami" "ubuntu" {
-    most_recent = true
-filter {
-        name   = "name"
-        values = ["ubuntu/images/hvm-ssd/*20.04-amd64-server-*"]
-    }
-filter {
-        name   = "virtualization-type"
-        values = ["hvm"]
-    }
-owners = ["099720109477"] # Canonical
-}
-# provision to us-east-2 region
 provider "aws" {
-  region  = "us-east-2"
+  region = "us-east-2"
 }
-resource "aws_instance" "app_server" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  key_name      = "devops-techstack"
-tags = {
-    Name = var.ec2_name
+
+resource "aws_instance" "example" {
+  ami           = "ami-0fb653ca2d3203ac1"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "var.ec2-instance-name"
   }
 }
