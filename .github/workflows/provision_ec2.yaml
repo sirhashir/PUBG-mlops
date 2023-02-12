@@ -2,7 +2,7 @@ name: Provision t3.micro EC2
 on:
   workflow_dispatch:
     inputs:
-      ec2-name:
+      ec2-instance-name:
         description: EC2 name
         required: true
         default: 'App Server'
