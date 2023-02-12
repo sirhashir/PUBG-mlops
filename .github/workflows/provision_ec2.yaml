@@ -5,7 +5,7 @@ on:
       ec2-instance-name:
         description: EC2 name
         required: true
-        default: 'App Server'
+        default: 'Devops-Techstack Server'
         type: string
 jobs:
   provision-ec2:
