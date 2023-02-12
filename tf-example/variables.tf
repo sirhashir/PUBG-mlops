@@ -1,3 +1,3 @@
-variable "ec2-instance-name" {
+variable "ec2_name" {
   type = string
 }
