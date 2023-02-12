@@ -2,10 +2,10 @@ name: Provision t3.micro EC2
 on:
   workflow_dispatch:
     inputs:
-      ec2-instance-name:
+      ec2_name:
         description: EC2 name
         required: true
-        default: 'Devops-Techstack Server'
+        default: 'Devops-techstack'
         type: string
 jobs:
   provision-ec2:
@@ -28,7 +28,7 @@ jobs:
       - name: Terraform Apply
         id:   apply
         env:
-          TF_VAR_ec2_name:  "${{ github.event.inputs.ec2-instance-name }}"
+          TF_VAR_ec2_name:  "${{ github.event.inputs.ec2_name }}"
         run: |
           cd tf-example/
           terraform init
