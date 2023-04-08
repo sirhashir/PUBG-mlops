@@ -30,7 +30,7 @@ jobs:
 
       - name: Check if executable file was generated
         run: |
-          if [ -f "/home/runner/work/ec2/ec2/dist/app" ]; then
+          if [ -f "/home/runner/work/ec2/ec2/dist/app/app" ]; then
             echo "Executable file found!"
           else
             echo "ERROR: Executable file not found!"
