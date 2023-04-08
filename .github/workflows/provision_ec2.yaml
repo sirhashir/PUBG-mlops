@@ -1,12 +1,16 @@
 name: Provision t3.micro EC2
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       ec2_name:
+#         description: EC2 name
+#         required: true
+#         default: 'Otaku'
+#         type: string
 on:
-  workflow_dispatch:
-    inputs:
-      ec2_name:
-        description: EC2 name
-        required: true
-        default: 'Otaku'
-        type: string
+  push:
+    branches: [main]
+
 jobs:
   provision-ec2:
     runs-on: ubuntu-latest
