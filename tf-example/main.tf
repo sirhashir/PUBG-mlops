@@ -8,5 +8,6 @@ resource "aws_instance" "example" {
 
   tags = {
     Name = "var.ec2_name"
+    default = "my-ec2-instance"
   }
 }
