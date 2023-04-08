@@ -22,6 +22,25 @@ jobs:
 
       - name: Install PyInstaller
         run: pip install pyinstaller
+        
+      - name: Package Flask app
+        run: |
+          cd .
+          python -m PyInstaller application.py
+
+      - name: Check if executable file was generated
+        run: |
+          if [ -f "/home/runner/work/ec2/ec2/dist/app" ]; then
+            echo "Executable file found!"
+          else
+            echo "ERROR: Executable file not found!"
+          fi      
+
+      - name: Upload executable as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: dist/app
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -49,24 +68,7 @@ jobs:
           terraform plan
           terraform apply -auto-approve
 
-      - name: Package Flask app
-        run: |
-          cd .
-          python -m PyInstaller application.py
-
-      - name: Check if executable file was generated
-        run: |
-          if [ -f "/home/runner/work/ec2/ec2/dist/app" ]; then
-            echo "Executable file found!"
-          else
-            echo "ERROR: Executable file not found!"
-          fi      
-
-      - name: Upload executable as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: app
-          path: dist/app
+      
   
   deploy_ec2:
     needs: provision-ec2
