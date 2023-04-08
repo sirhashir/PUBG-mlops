@@ -64,7 +64,6 @@ jobs:
           path: dist/app
   
   deploy_ec2:
-    needs: provision_ec2
     runs-on: ubuntu-latest
     steps:
       - name: Copy files to EC2 instance
