@@ -15,18 +15,22 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
+
       - name: Install PyInstaller
         run: pip install pyinstaller
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: '${{ secrets.TF_USER_AWS_KEY }}'
           aws-secret-access-key: '${{ secrets.TF_USER_AWS_SECRET }}'
           aws-region: us-east-2
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: false
+
       - name: Terraform Apply
         id:   apply
         env:
@@ -37,10 +41,12 @@ jobs:
           terraform validate
           terraform plan 
           terraform apply -auto-approve
+
       - name: Package Flask app
         run: |
           cd .
           pyinstaller --onefile app.py
+
       - name: Check if executable file was generated
         run: |
           if [ -f "/home/runner/work/ec2/ec2/dist/app" ]; then
@@ -48,8 +54,16 @@ jobs:
           else
             echo "ERROR: Executable file not found!"
           fi      
+
       - name: Upload executable as artifact
         uses: actions/upload-artifact@v2
         with:
           name: app
           path: dist/app
+
+      - name: Output EC2 details
+        id: ec2_details
+        run: |
+          echo "::set-output name=ec2_host::$(terraform output ec2_public_dns)"
+          echo "::set-output name=ec2_user::ec2-user"
+        shell: bash
