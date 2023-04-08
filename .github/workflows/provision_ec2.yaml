@@ -60,10 +60,3 @@ jobs:
         with:
           name: app
           path: dist/app
-
-      - name: Output EC2 details
-        id: ec2_details
-        run: |
-          echo "::set-output name=ec2_host::$(terraform output ec2_public_dns)"
-          echo "::set-output name=ec2_user::ec2-user"
-        shell: bash
