@@ -1,26 +1,14 @@
 name: Provision and Deploy
 
 on:
-  push:
-    branches:
-      - main
-
-jobs:
-  provision_ec2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Provision EC2 Instance
-        uses: ./provision_ec2.yaml
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-
-      - name: Wait for EC2 instance to start
-        run: sleep 30s
-
+  workflow_dispatch:
+    inputs:
+      ec2_name:
+        description: EC2 name
+        required: true
+        default: 'Otaku'
+        type: string
+        
   deploy_ec2:
     needs: provision_ec2
     runs-on: ubuntu-latest
