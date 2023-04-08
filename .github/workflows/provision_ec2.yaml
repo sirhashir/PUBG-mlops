@@ -26,7 +26,7 @@ jobs:
       - name: Package Flask app
         run: |
           cd .
-          python -m PyInstaller application.py
+          python -m PyInstaller app.py
 
       - name: Check if executable file was generated
         run: |
@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app
-          path: dist/
+          path: dist/app
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -65,7 +65,7 @@ jobs:
           cd tf-example/
           terraform init
           terraform validate
-          terraform plan
+          terraform plan  
           terraform apply -auto-approve
 
       
