@@ -45,7 +45,15 @@ jobs:
           terraform validate
           terraform plan 
           terraform apply -auto-approve
+        outputs:
+          ec2_public_ip: ${{ steps.apply.outputs.ec2_public_ip }}
+          ssh_user: ${{ steps.apply.outputs.ssh_user }}
 
+      - name: Set secrets
+        run: |
+          echo "::set-secret name=EC2_HOST::${{ steps.apply.outputs.ec2_public_ip }}"
+          echo "::set-secret name=EC2_USER::${{ steps.apply.outputs.ssh_user }}"
+          
       - name: Package Flask app
         run: |
           cd .
@@ -64,10 +72,3 @@ jobs:
         with:
           name: app
           path: dist/app
-
-      - name: Output EC2 details
-        id: ec2_details
-        run: |
-          echo "::set-output name=ec2_host::$(terraform output ec2_public_dns)"
-          echo "::set-output name=ec2_user::ec2-user"
-        shell: bash
