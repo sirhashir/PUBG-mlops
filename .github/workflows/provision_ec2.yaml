@@ -35,6 +35,8 @@ jobs:
         id: apply
         env:
           TF_VAR_ec2_name: "${{ github.event.inputs.ec2_name }}"
+          TF_VAR_ec2_user: myuser
+          TF_VAR_ec2_host: 12.34.56.78  
         run: |
           cd tf-example/
           terraform init
