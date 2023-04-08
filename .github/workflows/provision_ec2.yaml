@@ -48,13 +48,6 @@ jobs:
           else
             echo "ERROR: Executable file not found!"
           fi      
-      - name: Verify build process completed successfully
-        run: |
-          if grep -q "completed successfully." /home/runner/work/ec2/ec2/build/app/make.log; then
-            echo "Build process completed successfully!"
-          else
-            echo "ERROR: Build process failed!"
-          fi
       - name: Upload executable as artifact
         uses: actions/upload-artifact@v2
         with:
