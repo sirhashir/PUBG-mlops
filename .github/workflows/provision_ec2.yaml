@@ -11,9 +11,9 @@ on:
 jobs:
   provision-ec2:
     runs-on: ubuntu-latest
-    outputs:
-      ec2_public_ip: ${{ steps.apply.outputs.ec2_public_ip }}
-      ssh_user: ${{ steps.apply.outputs.ssh_user }}
+    # outputs:
+    #   ec2_public_ip: ${{ steps.apply.outputs.ec2_public_ip }}
+    #   ssh_user: ${{ steps.apply.outputs.ssh_user }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
