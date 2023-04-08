@@ -5,7 +5,7 @@ on:
       ec2_name:
         description: EC2 name
         required: true
-        default: 'Devops-techstack'
+        default: 'Otaku'
         type: string
 jobs:
   provision-ec2:
@@ -15,6 +15,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
+      - name: Install PyInstaller
+        run: pip install pyinstaller
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -35,3 +37,7 @@ jobs:
           terraform validate
           terraform plan 
           terraform apply -auto-approve
+      - name: Package Flask app
+        run: |
+          cd .
+          pyinstaller --onefile app.py
