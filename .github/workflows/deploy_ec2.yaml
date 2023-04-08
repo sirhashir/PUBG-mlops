@@ -1,13 +1,19 @@
 name: Provision and Deploy
 
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       ec2_name:
+#         description: EC2 name
+#         required: true
+#         default: 'Otaku'
+#         type: string
+
 on:
-  workflow_dispatch:
-    inputs:
-      ec2_name:
-        description: EC2 name
-        required: true
-        default: 'Otaku'
-        type: string
+  push:
+    branches:
+      - main
+
         
   deploy_ec2:
     needs: provision_ec2
