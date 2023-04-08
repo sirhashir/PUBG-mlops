@@ -1,15 +1,15 @@
 name: Provision t3.micro EC2
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       ec2_name:
-#         description: EC2 name
-#         required: true
-#         default: 'Otaku'
-#         type: string
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      ec2_name:
+        description: EC2 name
+        required: true
+        default: 'Otaku'
+        type: string
+# on:
+#   push:
+#     branches: [main]
 
 jobs:
   provision-ec2:
@@ -47,7 +47,7 @@ jobs:
         with:
           aws-access-key-id: '${{ secrets.TF_USER_AWS_KEY }}'
           aws-secret-access-key: '${{ secrets.TF_USER_AWS_SECRET }}'
-          aws-region: eu-north-1
+          aws-region: eu-east-2
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
