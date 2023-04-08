@@ -22,7 +22,7 @@ jobs:
 
       - name: Install PyInstaller
         run: pip install pyinstaller
-        
+
       - name: Package Flask app
         run: |
           cd .
@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app
-          path: dist/app
+          path: dist/
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
