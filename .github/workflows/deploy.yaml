@@ -20,12 +20,12 @@ jobs:
       - name: Deploy code to EC2 instance
         uses: easingthemes/ssh-deploy@v2
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-          remote-user: ec2-user
-          remote-host: ec2-16-170-168-105.eu-north-1.compute.amazonaws.com
-          source: .
-          target: /home/ec2-user/myapp
-          args: --exclude '.git/*'
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_USER: ec2-user
+          REMOTE_HOST: ec2-16-170-168-105.eu-north-1.compute.amazonaws.com
+          SOURCE: .
+          TARGET: /home/ec2-user/myapp
+          ARGS: --exclude '.git/*'
 
       - name: Start Flask app
         run: ssh -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} "git clone https://github.com/Yuvraj-Sharma-2000/ec2.git && cd ec2 && nohup python3 app.py > /dev/null 2>&1 &"
