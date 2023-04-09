@@ -1,36 +1,31 @@
 name: Deploy to EC2
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       ec2_name:
-#         description: EC2 name
-#         required: true
-#         default: 'Otaku'
-#         type: string
 on:
   push:
     branches: [main]
+
 jobs:
   deploy:
+    name: Deploy to EC2 instance
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install python3 python3-pip -y
-        pip3 install -r requirements.txt
-    - name: Deploy to EC2
-      run: |
-        ssh -i "${{ secrets.EC2_SSH_KEY }}" ec2-user@${{ secrets.EC2_PUBLIC_IP }} "git clone https://github.com/Yuvraj-Sharma-2000/ec2.git && cd ec2 && nohup python3 app.py > /dev/null 2>&1 &"
-    - name: Set up AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-north-1
-    - name: Create EC2 instance
-      run: |
-        aws ec2 run-instances --image-id ami-0c94855ba95c71c99 --count 1 --instance-type t2.micro --key-name my-key-pair --security-group-ids sg-0123456789abcdef0 --subnet-id subnet-0123456789abcdef --associate-public-ip-address
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install -r requirements.txt
+
+      - name: Deploy code to EC2 instance
+        uses: easingthemes/ssh-deploy@v2
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+          remote-user: ec2-user
+          remote-host: ec2-16-170-168-105.eu-north-1.compute.amazonaws.com
+          source: .
+          target: /home/ec2-user/myapp
+          args: --exclude '.git/*'
+
+      - name: Start Flask app
+        run: ssh -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} "git clone https://github.com/Yuvraj-Sharma-2000/ec2.git && cd ec2 && nohup python3 app.py > /dev/null 2>&1 &"
