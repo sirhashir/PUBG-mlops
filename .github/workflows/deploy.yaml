@@ -28,4 +28,4 @@ jobs:
           ARGS: --exclude '.git/*'
 
       - name: Start Flask app
-        run: ssh -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} "git clone https://github.com/Yuvraj-Sharma-2000/ec2.git && cd ec2 && nohup python3 app.py > /dev/null 2>&1 &"
+        run: ssh -v -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} "git clone https://github.com/Yuvraj-Sharma-2000/ec2.git && cd ec2 && nohup python3 app.py > /dev/null 2>&1 &"
