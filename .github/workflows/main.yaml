@@ -81,15 +81,14 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
-      
       - name: Pull latest images
         env:
             ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI}}
             ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME}}
             IMAGE_TAG: latest
         run: |
-        #  docker pull $ECR_LOGIN_URI/$ECR_REPOSITORY:$IMAGE_TAG
             docker pull 823129822706.dkr.ecr.eu-north-1.amazonaws.com/studentperformance:latest
+        #  docker pull $ECR_LOGIN_URI/$ECR_REPOSITORY:$IMAGE_TAG
          
       # - name: Stop and remove  container if running
       #   run: |
