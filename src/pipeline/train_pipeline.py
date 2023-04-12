@@ -13,6 +13,9 @@ dt = data_transformation.DataTransformation()
 # Create an instance of the ModelTrainer class
 mt = model_trainer.ModelTrainer()
 
-train_path,test_path = di.initiate_data_ingestion()
+di.initiate_data_ingestion()
+
+train_path,test_path = "artifacts/train.csv","artifacts/test.csv"
 train_arr,test_arr,_ = dt.initiate_data_transformation(train_path, test_path)
+
 mt.initiate_model_trainer(train_arr, test_arr)

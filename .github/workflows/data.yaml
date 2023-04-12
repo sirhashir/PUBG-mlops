@@ -1,4 +1,4 @@
-name: Run My Python Scripts on Push
+name: Model train
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - 'notebook/data'
 
 jobs:
-  run-my-scripts:
+  Train-model:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
