@@ -1,0 +1,27 @@
+name: Run My Python Scripts on Push
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'notebook/data'
+
+jobs:
+  run-my-scripts:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8' 
+    - name: Install dependencies
+      run: |
+        cd ./
+        pip install -r requirements.txt 
+    - name: Train model
+      run: |
+        cd src/pipeline
+        python train_pipeline.py

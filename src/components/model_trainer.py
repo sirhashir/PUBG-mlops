@@ -81,7 +81,6 @@ class ModelTrainer:
                     # 'loss':['linear','square','exponential'],
                     'n_estimators': [8,16,32,64,128,256]
                 }
-                
             }
 
             # evaluate_model function is in utils file
@@ -113,8 +112,5 @@ class ModelTrainer:
             return r2_square
             
 
-
-
-            
         except Exception as e:
             raise CustomException(e,sys)

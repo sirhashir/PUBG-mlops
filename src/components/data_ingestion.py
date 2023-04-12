@@ -20,7 +20,7 @@ from dataclasses import dataclass
 
 @dataclass # @dataclasses we use when we need to store only variables , it saves time & space as we no need to write constructor
 class DataIngestionConfig: #any input we require will be given thorugh this class
-    train_data_path: str=os.path.join('artifacts',"train.csv")   # artifact is a folder which is used to store these csvs
+    train_data_path: str=os.path.join('artifacts',"train.csv")   # artifact is a folder which is used to store these csv
     test_data_path: str=os.path.join('artifacts',"test.csv")
     raw_data_path: str=os.path.join('artifacts',"data.csv")
 
