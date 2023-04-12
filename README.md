@@ -24,5 +24,3 @@ python python -m src.components.data_ingestion
 ```
 python app.py
 ```
-
-Hello world
