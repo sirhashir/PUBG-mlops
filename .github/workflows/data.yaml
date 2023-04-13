@@ -32,4 +32,5 @@ jobs:
     - name: Train model
       run: |
         cd ./
-        python full_train.py
+        python Add-to-github.py
+        # python full_train.py
