@@ -31,9 +31,4 @@ jobs:
     - name: Train model
       run: |
         cd ./
-        python full_pipeline.py
-    # - name: Data Ingestion
-    #   run: |
-    #     python src/pipeline/data_ingestion.py
-    #     python src/pipeline/data_transformation.py
-    #     python src/pipeline/model_trainer.py
+        python full_train.py
