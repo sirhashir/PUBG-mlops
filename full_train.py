@@ -52,7 +52,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df=pd.read_csv('notebook\data\stud.csv')        # need to change dataset path 
+            df=pd.read_csv('notebook/data/stud.csv')        # need to change dataset path 
             logging.info('Read the dataset as dataframe')
 
             # we are creating artifact folder here as this
