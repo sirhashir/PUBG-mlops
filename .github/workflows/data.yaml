@@ -30,8 +30,8 @@ jobs:
 
     - name: Train model
       run: |
-        cd src/pipeline
-        python train_pipeline.py
+        cd ./
+        python full_pipeline.py
     # - name: Data Ingestion
     #   run: |
     #     python src/pipeline/data_ingestion.py
