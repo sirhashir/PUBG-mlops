@@ -2,7 +2,7 @@ from github import Github
 import os
 
 # Create a Github instance using the Personal Access Token
-g = Github("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")
+g = Github("${{ secrets.FULL_ACCESS }}")
 
 # Get the repository that you want to work with
 repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
