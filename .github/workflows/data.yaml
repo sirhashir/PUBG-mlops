@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'README.md'
-      - 'notebook/data'
+      # - 'notebook/data'
 
 jobs:
   Train-model:
