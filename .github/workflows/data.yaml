@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - main
-    paths:
+    # paths:
+    #   - 'notebook/data'
+    paths-ignore:
       - 'README.md'
-      # - 'notebook/data'
 
 jobs:
   Train-model:
