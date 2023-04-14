@@ -302,6 +302,10 @@ class ModelTrainer:
 
 
 
+import pickle
+from github import Github
+import os
+
 def save_object(file_path, obj):
     # Create a Github instance using the Personal Access Token
     g = Github(os.environ['FULL_ACCESS'])
@@ -311,14 +315,19 @@ def save_object(file_path, obj):
     try:
         # Try to get the contents of the file
         file_contents = repo.get_contents(file_path)
-        repo.update_file(file_path,"Updated Dataset",obj,file_contents.sha)
+        # Update the file
+        obj_bytes = pickle.dumps(obj)
+        repo.update_file(file_path, "Updated file", obj_bytes, file_contents.sha)
         print(f"Updated file {file_path}")
 
     except Exception as e:
         # If the file does not exist, create it
         print(f"File {file_path} not found, creating it")
-        repo.create_file(file_path, "Create Dataset",obj)
+        # Create the file
+        obj_bytes = pickle.dumps(obj)
+        repo.create_file(file_path, "Create file", obj_bytes)
         print(f"Created file {file_path}")
+
 
 # --------------------------------------------------------------------------------------------------------------------------#
 # --------------------------------------------------------------------------------------------------------------------------#
