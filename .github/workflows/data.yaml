@@ -28,7 +28,8 @@ jobs:
       run: echo $GITHUB_WORKSPACE
 
     - name: Train model
+      env:
+        FULL_ACCESS: ${{ secrets.FULL_ACCESS }}
       run: |
         cd ./
         python push.py
-        # python full_train.py
