@@ -30,4 +30,5 @@ jobs:
     - name: Train model
       run: |
         cd ./
-        python full_train.py
+        python push.py
+        # python full_train.py
