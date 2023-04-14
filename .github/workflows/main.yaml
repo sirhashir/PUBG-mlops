@@ -7,8 +7,8 @@ on:
     paths:
       - 'Dockerfile'
       - 'app.py'
-      - 'src/'
-      - 'templates/'
+      - './src/**'
+      - './templates/**'
 
 permissions:
   id-token: write
