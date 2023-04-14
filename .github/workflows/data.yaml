@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - 'notebook/data'
+    paths:
+      - 'notebook/data'
     paths-ignore:
       - 'README.md'
-      - 'new_folder'
+      - 'artifacts'
 
 jobs:
   Train-model:
