@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'notebook/data'
+      - './notebook/data'
 
 jobs:
   Train-model:
