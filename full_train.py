@@ -54,18 +54,19 @@ class DataIngestion:
             df=pd.read_csv('notebook/data/stud.csv')        # need to change dataset path 
             logging.info('Read the dataset as dataframe')
 
-            # we are creating artifact folder here as this
-            # folder contains csv data defined in above method
-            os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)  
-
             df.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
 
             logging.info("Train test split initiated")
             train_set,test_set=train_test_split(df,test_size=0.2,random_state=42)
 
             # After train test split save the csv to paths defined above
-            train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
-            test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
+            train_set.to_csv(self.ingestion_config.train_data_path)
+            test_set.to_csv(self.ingestion_config.test_data_path)
+
+            save_csv(self.ingestion_config.train_data_path, train_set)
+            save_csv(self.ingestion_config.test_data_path, test_set)
+            
+
             logging.info("Ingestion of data completed")
 
             
@@ -327,6 +328,31 @@ def save_object(file_path, obj):
         obj_bytes = pickle.dumps(obj)
         repo.create_file(file_path, "Create file", obj_bytes)
         print(f"Created file {file_path}")
+
+
+# --------------------------------------------------------------------------------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------------#
+
+
+def save_csv(file_path, data):
+    # Create a Github instance using the Personal Access Token
+    g = Github(os.environ['FULL_ACCESS'])
+    # Get the repository that you want to work with
+    repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
+
+    try:
+        # Try to get the contents of the file
+        file_contents = repo.get_contents(file_path)
+        repo.update_file(file_path, "Updated Dataset", data.to_csv(index=False), file_contents.sha)
+        print(f"Updated file {file_path}")
+
+    except Exception as e:
+        # If the file does not exist, create it
+        print(f"File {file_path} not found, creating it")
+        repo.create_file(file_path, "Create Dataset", data.to_csv(index=False))
+        print(f"Created file {file_path}")
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------#
