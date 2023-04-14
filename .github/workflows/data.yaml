@@ -33,4 +33,4 @@ jobs:
         FULL_ACCESS: ${{ secrets.FULL_ACCESS }}
       run: |
         cd ./
-        python push.py
+        python full_train.py

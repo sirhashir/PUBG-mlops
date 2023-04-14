@@ -34,22 +34,15 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
-
-
-# Create a Github instance using the Personal Access Token
-g = Github(os.environ['FULL_ACCESS'])
-# Get the repository that you want to work with
-repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
-
 # --------------------------------------------------------------------------------------------------------------------------#
 # --------------------------------------------------------------------------------------------------------------------------#
 # --------------------------------------------------------------------------------------------------------------------------#
 
 @dataclass # @dataclasses we use when we need to store only variables , it saves time & space as we no need to write constructor
 class DataIngestionConfig: #any input we require will be given thorugh this class
-    train_data_path: str=os.path.join('$GITHUB_WORKSPACE/artifacts',"train.csv")   # artifact is a folder which is used to store these csv
-    test_data_path: str=os.path.join('$GITHUB_WORKSPACE/artifacts',"test.csv")
-    raw_data_path: str=os.path.join('$GITHUB_WORKSPACE/artifacts',"data.csv")
+    train_data_path: str=os.path.join('artifacts',"train.csv")   # artifact is a folder which is used to store these csv
+    test_data_path: str=os.path.join('artifacts',"test.csv")
+    raw_data_path: str=os.path.join('artifacts',"data.csv")
 
 class DataIngestion:
     def __init__(self):
@@ -90,7 +83,7 @@ class DataIngestion:
 # Any path or input required are initialized here
 @dataclass  # @dataclasses we use when we need to store only variables , it saves time & space as we no need to write constructor
 class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join('$GITHUB_WORKSPACE/artifacts',"proprocessor.pkl")
+    preprocessor_obj_file_path=os.path.join('artifacts',"proprocessor.pkl")
 
 class DataTransformation:
     def __init__(self):
@@ -209,7 +202,7 @@ class DataTransformation:
 
 @dataclass
 class ModelTrainerConfig:
-    trained_model_file_path=os.path.join("$GITHUB_WORKSPACE/artifacts","model.pkl")
+    trained_model_file_path=os.path.join("artifacts","model.pkl")
 
 class ModelTrainer:
     def __init__(self):
@@ -310,16 +303,22 @@ class ModelTrainer:
 
 
 def save_object(file_path, obj):
+    # Create a Github instance using the Personal Access Token
+    g = Github(os.environ['FULL_ACCESS'])
+    # Get the repository that you want to work with
+    repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
+
     try:
-        dir_path = os.path.dirname(file_path)
-
-        os.makedirs(dir_path, exist_ok=True)
-
-        with open(file_path, "wb") as file_obj:
-            pickle.dump(obj, file_obj)
+        # Try to get the contents of the file
+        file_contents = repo.get_contents(file_path)
+        repo.update_file(file_path,"Updated Dataset",obj,file_contents.sha)
+        print(f"Updated file {file_path}")
 
     except Exception as e:
-        raise CustomException(e, sys)
+        # If the file does not exist, create it
+        print(f"File {file_path} not found, creating it")
+        repo.create_file(file_path, "Create Dataset",obj)
+        print(f"Created file {file_path}")
 
 # --------------------------------------------------------------------------------------------------------------------------#
 # --------------------------------------------------------------------------------------------------------------------------#
