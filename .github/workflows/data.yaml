@@ -13,23 +13,24 @@ jobs:
   Train-model:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Install Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8' 
-
-    - name: Install dependencies
-      run: |
-        cd ./
-        pip install -r requirements.txt 
+      - name: Add
+        run: |
+          python add.py
+    # - name: Checkout code
+    #   uses: actions/checkout@v2
 
     - name: Print the path to the root directory
       run: echo $GITHUB_WORKSPACE
 
-    - name: Train model
-      run: |
-        cd ./
-        python full_train.py
+    # - name: Install dependencies
+    #   run: |
+    #     cd ./
+    #     pip install -r requirements.txt 
+
+    # - name: Print the path to the root directory
+    #   run: echo $GITHUB_WORKSPACE
+
+    # - name: Train model
+    #   run: |
+    #     cd ./
+    #     python full_train.py
