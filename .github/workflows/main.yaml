@@ -3,10 +3,12 @@ name: CI/CD
 on:
   push:
     branches:
-      - master
-    paths-ignore:
-      - 'README.md'
-      - 'notebook/data'
+      - main
+    paths:
+      - 'Dockerfile'
+      - 'app.py'
+      - 'src/'
+      - 'templates/'
 
 permissions:
   id-token: write

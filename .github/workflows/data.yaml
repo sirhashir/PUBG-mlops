@@ -6,9 +6,6 @@ on:
       - main
     paths:
       - 'notebook/data'
-    paths-ignore:
-      - 'README.md'
-      - 'artifacts'
 
 jobs:
   Train-model:
