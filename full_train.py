@@ -81,7 +81,7 @@ class DataIngestion:
 # Any path or input required are initialized here
 @dataclass  # @dataclasses we use when we need to store only variables , it saves time & space as we no need to write constructor
 class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join('artifacts',"proprocessor.pkl")
+    preprocessor_obj_file_path=os.path.join('$GITHUB_WORKSPACE/artifacts',"proprocessor.pkl")
 
 class DataTransformation:
     def __init__(self):
@@ -200,7 +200,7 @@ class DataTransformation:
 
 @dataclass
 class ModelTrainerConfig:
-    trained_model_file_path=os.path.join("artifacts","model.pkl")
+    trained_model_file_path=os.path.join("$GITHUB_WORKSPACE/artifacts","model.pkl")
 
 class ModelTrainer:
     def __init__(self):
