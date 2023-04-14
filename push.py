@@ -7,13 +7,23 @@ g = Github(os.environ['FULL_ACCESS'])
 # Get the repository that you want to work with
 repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
 
-# Create a folder inside the repository
+# Define the folder and file names
 folder_name = "I did it"
-repo.create_file(f"{folder_name}/Katze.txt", "Initial commit", "")
+file_name = "Katze sensi.txt"
+file_path = f"{folder_name}/{file_name}"
 
-# # Push a file inside the folder
-# file_name = "example.txt"
-# file_path = os.path.join(folder_name, file_name)
-# with open(file_path, "w") as f:
-#     f.write("This is an example file.")
-# repo.create_file(file_path, "Add example file", "")
+# Delete the folder and its contents if it already exists
+try:
+    folder = repo.get_contents(folder_name)
+    repo.delete_file(folder.path, "Deleting folder", folder.sha)
+    print(f"Deleted folder {folder_name}")
+except Exception as e:
+    pass
+
+# Create the new folder
+repo.create_file(folder_name, "Creating folder", "")
+
+# Create the file
+file_contents = "This is the new content of the file"
+repo.create_file(file_path, "Creating file", file_contents)
+print(f"Created file {file_path}")

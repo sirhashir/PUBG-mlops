@@ -1,4 +1,6 @@
 import os
+from github import Github
+
 import sys
 import logging
 # from github import context
@@ -31,6 +33,13 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+
+
+
+# Create a Github instance using the Personal Access Token
+g = Github(os.environ['FULL_ACCESS'])
+# Get the repository that you want to work with
+repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
 
 # --------------------------------------------------------------------------------------------------------------------------#
 # --------------------------------------------------------------------------------------------------------------------------#

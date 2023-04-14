@@ -8,6 +8,7 @@ on:
     #   - 'notebook/data'
     paths-ignore:
       - 'README.md'
+      - 'new_folder'
 
 jobs:
   Train-model:
