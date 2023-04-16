@@ -51,7 +51,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df=pd.read_csv('notebook/data/stud.csv')        # need to change dataset path 
+            df=pd.read_csv('notebook/data/data.csv')        # need to change dataset path 
             logging.info('Read the dataset as dataframe')
 
             df.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
@@ -63,9 +63,9 @@ class DataIngestion:
             train_set.to_csv(self.ingestion_config.train_data_path)
             test_set.to_csv(self.ingestion_config.test_data_path)
 
-            save_csv(self.ingestion_config.train_data_path, train_set)
-            save_csv(self.ingestion_config.test_data_path, test_set)
-            
+#             FOR GITHUB SAVE 
+            # save_csv(self.ingestion_config.train_data_path, train_set)
+            # save_csv(self.ingestion_config.test_data_path, test_set)           
 
             logging.info("Ingestion of data completed")
 
@@ -95,13 +95,20 @@ class DataTransformation:
         This function is responsible for data transformation
         '''
         try:
-            numerical_columns = ["writing_score", "reading_score"]
+            numerical_columns = ["assists",
+                                 "boosts",
+                                 "headshotKills",
+                                 "headshotKills",
+                                 "kills",
+                                 "longestKill",
+                                 "matchDuration",
+                                 "revives",
+                                 "teamKills",
+                                 "vehicleDestroys",
+                                 "walkDistance",
+                                 "weaponsAcquired"]
             categorical_columns = [
-                "gender",
-                "race_ethnicity",
-                "parental_level_of_education",
-                "lunch",
-                "test_preparation_course",
+                "matchType"
             ]
             
             # Create a numerical processing pipeline
@@ -115,7 +122,6 @@ class DataTransformation:
 
             # Create a categorical pipeline
             cat_pipeline=Pipeline(
-
                 steps=[
                 ("imputer",SimpleImputer(strategy="most_frequent")),    # handle missing with frequency 
                 ("one_hot_encoder",OneHotEncoder()),                    # One hot encoding
@@ -132,10 +138,7 @@ class DataTransformation:
                 ("cat_pipelines",cat_pipeline,categorical_columns)
                 # our_name      # pipeline    # column
                 ]
-
-
             )
-
             return preprocessor
         
         except Exception as e:
@@ -156,9 +159,19 @@ class DataTransformation:
             # We want to save this object as pickel (done in save block)
             preprocessing_obj=self.get_data_transformer_object()    # getting objects/methods under this class
 
-            target_column_name="math_score"                         # target column name
-            numerical_columns = ["writing_score", "reading_score"]  # numerical columns names
-
+            target_column_name="winPlacePerc"                         # target column name
+            numerical_columns = ["assists",
+                                 "boosts",
+                                 "headshotKills",
+                                 "headshotKills",
+                                 "kills",
+                                 "longestKill",
+                                 "matchDuration",
+                                 "revives",
+                                 "teamKills",
+                                 "vehicleDestroys",
+                                 "walkDistance",
+                                 "weaponsAcquired"]
             input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)   # drop the column which we want to predict
             target_feature_train_df=train_df[target_column_name]                        
 
@@ -180,7 +193,7 @@ class DataTransformation:
             logging.info(f"Saved preprocessing object.")
 
             # This save is defined in utils 
-            save_object(
+            save_object_gen(
 
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,   # path for file 
                 obj=preprocessing_obj   # actual file/object to save 
@@ -279,11 +292,11 @@ class ModelTrainer:
             ]
             best_model = models[best_model_name]
 
-            if best_model_score<0.6:
+            if best_model_score<0.3:
                 raise CustomException("No best model found")
             logging.info(f"Best found model on both training and testing dataset")
 
-            save_object(
+            save_object_gen(
                 file_path=self.model_trainer_config.trained_model_file_path,    # path for pickle file
                 obj=best_model      # create the pickle file from the best model
             )
@@ -301,33 +314,49 @@ class ModelTrainer:
 # --------------------------------------------------------------------------------------------------------------------------#
 # --------------------------------------------------------------------------------------------------------------------------#
 
-
-
-import pickle
-from github import Github
-import os
-
-def save_object(file_path, obj):
-    # Create a Github instance using the Personal Access Token
-    g = Github(os.environ['FULL_ACCESS'])
-    # Get the repository that you want to work with
-    repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
-
+def save_object_gen(file_path, obj):
     try:
-        # Try to get the contents of the file
-        file_contents = repo.get_contents(file_path)
-        # Update the file
-        obj_bytes = pickle.dumps(obj)
-        repo.update_file(file_path, "Updated file", obj_bytes, file_contents.sha)
-        print(f"Updated file {file_path}")
+        dir_path = os.path.dirname(file_path)
+
+        os.makedirs(dir_path, exist_ok=True)
+
+        with open(file_path, "wb") as file_obj:
+            dill.dump(obj, file_obj)
 
     except Exception as e:
-        # If the file does not exist, create it
-        print(f"File {file_path} not found, creating it")
-        # Create the file
-        obj_bytes = pickle.dumps(obj)
-        repo.create_file(file_path, "Create file", obj_bytes)
-        print(f"Created file {file_path}")
+        raise CustomException(e, sys)
+
+# --------------------------------------------------------------------------------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------------#
+       
+
+
+# import pickle
+# from github import Github
+# import os
+
+# def save_object(file_path, obj):
+#     # Create a Github instance using the Personal Access Token
+#     g = Github(os.environ['FULL_ACCESS'])
+#     # Get the repository that you want to work with
+#     repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
+
+#     try:
+#         # Try to get the contents of the file
+#         file_contents = repo.get_contents(file_path)
+#         # Update the file
+#         obj_bytes = pickle.dumps(obj)
+#         repo.update_file(file_path, "Updated file", obj_bytes, file_contents.sha)
+#         print(f"Updated file {file_path}")
+
+#     except Exception as e:
+#         # If the file does not exist, create it
+#         print(f"File {file_path} not found, creating it")
+#         # Create the file
+#         obj_bytes = pickle.dumps(obj)
+#         repo.create_file(file_path, "Create file", obj_bytes)
+#         print(f"Created file {file_path}")
 
 
 # --------------------------------------------------------------------------------------------------------------------------#
@@ -335,23 +364,23 @@ def save_object(file_path, obj):
 # --------------------------------------------------------------------------------------------------------------------------#
 
 
-def save_csv(file_path, data):
-    # Create a Github instance using the Personal Access Token
-    g = Github(os.environ['FULL_ACCESS'])
-    # Get the repository that you want to work with
-    repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
+# def save_csv(file_path, data):
+#     # Create a Github instance using the Personal Access Token
+#     g = Github(os.environ['FULL_ACCESS'])
+#     # Get the repository that you want to work with
+#     repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
 
-    try:
-        # Try to get the contents of the file
-        file_contents = repo.get_contents(file_path)
-        repo.update_file(file_path, "Updated Dataset", data.to_csv(index=False), file_contents.sha)
-        print(f"Updated file {file_path}")
+#     try:
+#         # Try to get the contents of the file
+#         file_contents = repo.get_contents(file_path)
+#         repo.update_file(file_path, "Updated Dataset", data.to_csv(index=False), file_contents.sha)
+#         print(f"Updated file {file_path}")
 
-    except Exception as e:
-        # If the file does not exist, create it
-        print(f"File {file_path} not found, creating it")
-        repo.create_file(file_path, "Create Dataset", data.to_csv(index=False))
-        print(f"Created file {file_path}")
+#     except Exception as e:
+#         # If the file does not exist, create it
+#         print(f"File {file_path} not found, creating it")
+#         repo.create_file(file_path, "Create Dataset", data.to_csv(index=False))
+#         print(f"Created file {file_path}")
 
 
 
