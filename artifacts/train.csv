@@ -219,7 +219,7 @@ male,group B,high school,standard,none,62,55,54
 male,group A,bachelor's degree,standard,none,64,60,58
 female,group D,some high school,standard,completed,66,78,78
 male,group C,high school,standard,completed,86,81,80
-male,group C,master's degree,free/reduced,completed,46,42,46
+male,group C,master's degree,free/reduced,completed,4699,42,46
 female,group B,associate's degree,free/reduced,completed,76,94,87
 male,group A,high school,standard,none,59,52,46
 male,group B,high school,free/reduced,none,63,48,47
