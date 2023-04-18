@@ -15,7 +15,22 @@ conda activate {path of your conda env}
 pip install -r requirements.txt
 ```
 
-### Run a python filr
+### Docker Setup In EC2 commands to be Executed
+```
+sudo apt-get update -y
+
+sudo apt-get upgrade
+
+curl -fsSL https://get.docker.com -o get-docker.sh
+
+sudo sh get-docker.sh
+
+sudo usermod -aG docker ubuntu
+
+newgrp docker
+```
+
+### Run a python file
 ```
 python python -m src.components.data_ingestion
 ```
