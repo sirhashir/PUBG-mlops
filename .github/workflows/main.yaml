@@ -10,6 +10,9 @@ on:
       - 'src/**'
       - 'templates/**'
 
+  repository_dispatch:
+    types: [trigger-main-workflow]
+
 permissions:
   id-token: write
   contents: read
