@@ -64,8 +64,8 @@ class DataIngestion:
             test_set.to_csv(self.ingestion_config.test_data_path)
 
 #             FOR GITHUB SAVE 
-            # save_csv(self.ingestion_config.train_data_path, train_set)
-            # save_csv(self.ingestion_config.test_data_path, test_set)           
+            save_csv(self.ingestion_config.train_data_path, train_set)
+            save_csv(self.ingestion_config.test_data_path, test_set)           
 
             logging.info("Ingestion of data completed")
 
@@ -193,7 +193,7 @@ class DataTransformation:
             logging.info(f"Saved preprocessing object.")
 
             # This save is defined in utils 
-            save_object_gen(
+            save_object(
 
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,   # path for file 
                 obj=preprocessing_obj   # actual file/object to save 
@@ -296,7 +296,7 @@ class ModelTrainer:
                 raise CustomException("No best model found")
             logging.info(f"Best found model on both training and testing dataset")
 
-            save_object_gen(
+            save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,    # path for pickle file
                 obj=best_model      # create the pickle file from the best model
             )
@@ -314,17 +314,17 @@ class ModelTrainer:
 # --------------------------------------------------------------------------------------------------------------------------#
 # --------------------------------------------------------------------------------------------------------------------------#
 
-def save_object_gen(file_path, obj):
-    try:
-        dir_path = os.path.dirname(file_path)
+# def save_object_gen(file_path, obj):
+#     try:
+#         dir_path = os.path.dirname(file_path)
 
-        os.makedirs(dir_path, exist_ok=True)
+#         os.makedirs(dir_path, exist_ok=True)
 
-        with open(file_path, "wb") as file_obj:
-            dill.dump(obj, file_obj)
+#         with open(file_path, "wb") as file_obj:
+#             dill.dump(obj, file_obj)
 
-    except Exception as e:
-        raise CustomException(e, sys)
+#     except Exception as e:
+#         raise CustomException(e, sys)
 
 # --------------------------------------------------------------------------------------------------------------------------#
 # --------------------------------------------------------------------------------------------------------------------------#
@@ -332,31 +332,31 @@ def save_object_gen(file_path, obj):
        
 
 
-# import pickle
-# from github import Github
-# import os
+import pickle
+from github import Github
+import os
 
-# def save_object(file_path, obj):
-#     # Create a Github instance using the Personal Access Token
-#     g = Github(os.environ['FULL_ACCESS'])
-#     # Get the repository that you want to work with
-#     repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
+def save_object(file_path, obj):
+    # Create a Github instance using the Personal Access Token
+    g = Github(os.environ['FULL_ACCESS'])
+    # Get the repository that you want to work with
+    repo = g.get_repo("Yuvraj-Sharma-2000/")
 
-#     try:
-#         # Try to get the contents of the file
-#         file_contents = repo.get_contents(file_path)
-#         # Update the file
-#         obj_bytes = pickle.dumps(obj)
-#         repo.update_file(file_path, "Updated file", obj_bytes, file_contents.sha)
-#         print(f"Updated file {file_path}")
+    try:
+        # Try to get the contents of the file
+        file_contents = repo.get_contents(file_path)
+        # Update the file
+        obj_bytes = pickle.dumps(obj)
+        repo.update_file(file_path, "Updated file", obj_bytes, file_contents.sha)
+        print(f"Updated file {file_path}")
 
-#     except Exception as e:
-#         # If the file does not exist, create it
-#         print(f"File {file_path} not found, creating it")
-#         # Create the file
-#         obj_bytes = pickle.dumps(obj)
-#         repo.create_file(file_path, "Create file", obj_bytes)
-#         print(f"Created file {file_path}")
+    except Exception as e:
+        # If the file does not exist, create it
+        print(f"File {file_path} not found, creating it")
+        # Create the file
+        obj_bytes = pickle.dumps(obj)
+        repo.create_file(file_path, "Create file", obj_bytes)
+        print(f"Created file {file_path}")
 
 
 # --------------------------------------------------------------------------------------------------------------------------#

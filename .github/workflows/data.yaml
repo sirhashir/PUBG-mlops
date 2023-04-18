@@ -27,7 +27,7 @@ jobs:
 
     - name: Train model
       env:
-        FULL_ACCESS: ${{ secrets.FULL_ACCESS }}
+        FULL_ACCESS: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
         cd ./
         python full_train.py
