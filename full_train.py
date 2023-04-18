@@ -365,7 +365,7 @@ def save_csv(file_path, data):
     # Create a Github instance using the Personal Access Token
     g = Github(os.environ['FULL_ACCESS'])
     # Get the repository that you want to work with
-    repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
+    repo = g.get_repo("Yuvraj-Sharma-2000/PUBG-mlops")
 
     try:
         # Try to get the contents of the file
