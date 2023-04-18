@@ -362,23 +362,23 @@ def save_object(file_path, obj):
 # --------------------------------------------------------------------------------------------------------------------------#
 
 
-# def save_csv(file_path, data):
-#     # Create a Github instance using the Personal Access Token
-#     g = Github(os.environ['FULL_ACCESS'])
-#     # Get the repository that you want to work with
-#     repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
+def save_csv(file_path, data):
+    # Create a Github instance using the Personal Access Token
+    g = Github(os.environ['FULL_ACCESS'])
+    # Get the repository that you want to work with
+    repo = g.get_repo("Yuvraj-Sharma-2000/ec2")
 
-#     try:
-#         # Try to get the contents of the file
-#         file_contents = repo.get_contents(file_path)
-#         repo.update_file(file_path, "Updated Dataset", data.to_csv(index=False), file_contents.sha)
-#         print(f"Updated file {file_path}")
+    try:
+        # Try to get the contents of the file
+        file_contents = repo.get_contents(file_path)
+        repo.update_file(file_path, "Updated Dataset", data.to_csv(index=False), file_contents.sha)
+        print(f"Updated file {file_path}")
 
-#     except Exception as e:
-#         # If the file does not exist, create it
-#         print(f"File {file_path} not found, creating it")
-#         repo.create_file(file_path, "Create Dataset", data.to_csv(index=False))
-#         print(f"Created file {file_path}")
+    except Exception as e:
+        # If the file does not exist, create it
+        print(f"File {file_path} not found, creating it")
+        repo.create_file(file_path, "Create Dataset", data.to_csv(index=False))
+        print(f"Created file {file_path}")
 
 
 
