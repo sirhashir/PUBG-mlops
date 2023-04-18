@@ -9,7 +9,7 @@ __pycache__/
 # Distribution / packaging
 catboost_info/
 push/
-notebook/
+# notebook/
 .Python
 build/
 develop-eggs/

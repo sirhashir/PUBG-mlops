@@ -29,5 +29,5 @@ jobs:
       env:
         FULL_ACCESS: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
-        cd ./
+        cd ./ 
         python full_train.py

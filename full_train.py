@@ -98,7 +98,6 @@ class DataTransformation:
             numerical_columns = ["assists",
                                  "boosts",
                                  "headshotKills",
-                                 "headshotKills",
                                  "kills",
                                  "longestKill",
                                  "matchDuration",
@@ -162,7 +161,6 @@ class DataTransformation:
             target_column_name="winPlacePerc"                         # target column name
             numerical_columns = ["assists",
                                  "boosts",
-                                 "headshotKills",
                                  "headshotKills",
                                  "kills",
                                  "longestKill",
