@@ -32,6 +32,7 @@ jobs:
       - name: Run unit tests
         run: |
           echo "Running unit tests"
+          pip install pytest
           pytest -v test.py
 
   build-and-push-ecr-image:
