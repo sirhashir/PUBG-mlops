@@ -29,11 +29,20 @@ jobs:
       - name: Lint code
         run: echo "Linting repository"
 
-      - name: Run unit tests
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Install dependencies
         run: |
-          echo "Running unit tests"
-          pip install pytest
-          pytest -v test.py
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: pytest -v test_app.py
 
   build-and-push-ecr-image:
     name: Continuous Delivery

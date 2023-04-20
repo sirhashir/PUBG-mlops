@@ -29,7 +29,7 @@ def test_predict_data_page(client):
     assert b'<!DOCTYPE html>' in response.data
     assert b'Player Stats' in response.data
     assert b'Assists:' in response.data
-    assert b'Boosts:' in response.data
+    assert b'Boosts:' in response.data 
     assert b'Headshot Kills:' in response.data
     assert b'Kills:' in response.data
     assert b'Longest Kill:' in response.data
