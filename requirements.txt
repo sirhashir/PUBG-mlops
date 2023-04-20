@@ -10,4 +10,5 @@ Flask
 ipykernel
 logger
 pygithub 
+pytest
 # -e .

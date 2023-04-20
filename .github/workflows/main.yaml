@@ -7,6 +7,7 @@ on:
     paths:
       - 'Dockerfile'
       - 'app.py'
+      - 'test.py'
       - 'src/**'
       - 'templates/**'
 
@@ -29,7 +30,9 @@ jobs:
         run: echo "Linting repository"
 
       - name: Run unit tests
-        run: echo "Running unit tests"
+        run: |
+          echo "Running unit tests"
+          pytest -v test.py
 
   build-and-push-ecr-image:
     name: Continuous Delivery
