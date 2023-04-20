@@ -91,9 +91,11 @@ jobs:
 
       - name: Delete Previous build
         run: |
-          docker stop $(docker ps | awk '{print $1}')
-          docker rm $(docker ps -a | awk '{print $1}')
-          docker rmi $(docker images | awk '{print $1}')
+          if [ -n "$(docker ps -aq)" ]; then
+            docker stop $(docker ps -aq)
+            docker rm $(docker ps -aq)
+            docker rmi $(docker images -q)
+          fi
       
       - name: Pull latest images
         env:
