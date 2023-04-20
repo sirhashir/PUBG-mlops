@@ -10,7 +10,7 @@ def error_message_detail(error,error_detail:sys):
     
 
     return error_message
-
+#Comment
     
 
 class CustomException(Exception):
