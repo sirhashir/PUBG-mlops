@@ -88,6 +88,12 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Delete Previous build
+        run: |
+          docker stop $(docker ps | awk '{print $1}')
+          docker rm $(docker ps -a | awk '{print $1}')
+          docker rmi $(docker images | awk '{print $1}')
       
       - name: Pull latest images
         env:
