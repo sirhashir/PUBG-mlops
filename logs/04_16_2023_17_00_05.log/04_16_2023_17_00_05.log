@@ -1,0 +1,9 @@
+[ 2023-04-16 17:00:05,698 ] 52 root - INFO - Entered the data ingestion method or component
+[ 2023-04-16 17:00:05,714 ] 55 root - INFO - Read the dataset as dataframe
+[ 2023-04-16 17:00:05,729 ] 59 root - INFO - Train test split initiated
+[ 2023-04-16 17:00:05,761 ] 70 root - INFO - Ingestion of data completed
+[ 2023-04-16 17:00:05,792 ] 155 root - INFO - Read train and test data completed
+[ 2023-04-16 17:00:05,792 ] 157 root - INFO - Obtaining preprocessing object
+[ 2023-04-16 17:00:05,792 ] 132 root - INFO - Categorical columns: ['matchType']
+[ 2023-04-16 17:00:05,792 ] 133 root - INFO - Numerical columns: ['assists', 'boosts', 'headshotKills', 'headshotKills', 'kills', 'longestKill', 'matchDuration', 'revives', 'teamKills', 'vehicleDestroys', 'walkDistance', 'weaponsAcquired']
+[ 2023-04-16 17:00:05,807 ] 181 root - INFO - Applying preprocessing object on training dataframe and testing dataframe.

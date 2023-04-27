@@ -1,0 +1,45 @@
+name: Model train
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'notebook/data/**'
+
+jobs:
+  Train-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          cd ./
+          pip install -r requirements.txt 
+
+      - name: Train model
+        env:
+          FULL_ACCESS: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          cd ./ 
+          python full_train.py
+
+  Trigger-main-workflow:
+    needs: Train-model
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger main workflow
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const event = {
+              event_type: 'trigger-main-workflow'
+            }
+            await github.repos.createDispatchEvent({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              event_type: event.event_type,
+            });
