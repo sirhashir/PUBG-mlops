@@ -10,5 +10,5 @@ function App() {
 }
 //comment
 //COMMENT
-//EK AUR
+
 export default App;
