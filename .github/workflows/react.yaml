@@ -6,7 +6,7 @@ on:
       - main
       - latest
     paths:
-      - '/my-app/**'
+      - 'my-app/**'
 
 permissions:
   id-token: write
