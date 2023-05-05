@@ -46,11 +46,10 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME_2 }}
-          IMAGE_TAG: latest
         run: |
           IMAGE_TAG=$(git rev-parse --short HEAD)
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:latest"
 
   Continuous-Deployment:
     needs: build-and-push-ecr-image
@@ -84,7 +83,7 @@ jobs:
           ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME_2}}
           IMAGE_TAG: latest
         run: |
-          echo "${{ secrets.AWS_ECR_PASSWORD }}" | docker login $ECR_LOGIN_URI -u ${{ secrets.AWS_ECR_USERNAME }} --password-stdin
+          echo "${{ secrets.AWS_ECR_PASSWORD }}" | docker login -u ${{ secrets.AWS_ECR_USERNAME }} --password-stdin $ECR_LOGIN_URI -t 0
           docker pull $ECR_LOGIN_URI/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Run Docker Image to serve users
