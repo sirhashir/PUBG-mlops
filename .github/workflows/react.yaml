@@ -18,7 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -42,6 +49,7 @@ jobs:
         run: |
           IMAGE_TAG=$(git rev-parse --short HEAD)
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
   Continuous-Deployment:
     needs: build-and-push-ecr-image
@@ -60,8 +68,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        with:
-          region: ${{ secrets.AWS_REGION }}
 
       - name: Delete Previous build
         run: |
@@ -80,12 +86,6 @@ jobs:
           echo "${{ secrets.AWS_ECR_PASSWORD }}" | docker login $ECR_LOGIN_URI -u ${{ secrets.AWS_ECR_USERNAME }} --password-stdin
           docker pull $ECR_LOGIN_URI/$ECR_REPOSITORY:$IMAGE_TAG
 
-        # docker pull 823129822706.dkr.ecr.eu-north-1.amazonaws.com/studentperformance:latest
-
-      # - name: Stop and remove  container if running
-      #   run: |
-      #    docker ps -q --filter "name=mltest" | grep -q . && docker stop mltest && docker rm -fv mltest
-
       - name: Run Docker Image to serve users
         env:
           ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI_2}}
@@ -95,7 +95,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
         run: |
-          docker run -d -p 8080:8080 --ipc="host" --name=mltest -e 'AWS_ACCESS_KEY_ID=$aws-access-key-id' -e 'AWS_SECRET_ACCESS_KEY=$aws-secret-access-key' -e 'AWS_REGION=$aws-region'  $ECR_LOGIN_URI/$ECR_REPOSITORY:latest
+          docker run -d -p 8080:8080 --ipc="host" --name=react_app -e 'AWS_ACCESS_KEY_ID=$aws-access-key-id' -e 'AWS_SECRET_ACCESS_KEY=$aws-secret-access-key' -e 'AWS_REGION=$aws-region'  $ECR_LOGIN_URI/$ECR_REPOSITORY:latest
       - name: Clean previous images and containers
         run: |
           docker system prune -f
