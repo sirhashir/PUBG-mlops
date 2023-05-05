@@ -80,10 +80,10 @@ jobs:
       - name: Pull latest images
         env:
           ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI}}
-          ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME}}
+          ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME_2}}
           IMAGE_TAG: latest
         run: |
-          echo "${{ secrets.AWS_ECR_PASSWORD }}" | docker login $ECR_LOGIN_URI -u ${{ secrets.AWS_ECR_USERNAME }} --password-stdin
+          echo "${{ secrets.AWS_ECR_PASSWORD }}" | docker login -u ${{ secrets.AWS_ECR_USERNAME }} --password-stdin $ECR_LOGIN_URI -it
           docker pull $ECR_LOGIN_URI/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Run Docker Image to serve users
