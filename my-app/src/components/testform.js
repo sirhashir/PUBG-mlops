@@ -16,7 +16,7 @@ const TestFormm = () => {
     weaponsAcquired: "",
     matchType: "",
   });
-  const [results, setResults] = useState("");
+  // const [results, setResults] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
