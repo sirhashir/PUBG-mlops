@@ -106,7 +106,7 @@ jobs:
             aws-region: ${{ secrets.AWS_REGION }}
 
         run: |
-          docker run -d -p 8080:8080 --ipc="host" --name=mltest -e 'AWS_ACCESS_KEY_ID=$aws-access-key-id' -e 'AWS_SECRET_ACCESS_KEY=$aws-secret-access-key' -e 'AWS_REGION=$aws-region'  $ECR_LOGIN_URI/$ECR_REPOSITORY:latest
+          docker run -d -p 8080:3000 --name=my-react-app my-react-image:latest
       - name: Clean previous images and containers
         run: |
           docker system prune -f
