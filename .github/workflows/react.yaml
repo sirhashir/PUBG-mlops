@@ -24,11 +24,18 @@ jobs:
         run: echo "Linting repository"
 
   build-and-push-ecr-image:
-    name: Build and Push Docker Image to ECR
+    name: Continuous Delivery
+    needs: integration
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Install Utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq unzip
+          sudo apt-get install -y apt-utils
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -41,24 +48,18 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build Docker Image
+      - name: Build, tag, and push image to Amazon ECR
         id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME_2 }}
-        run: |
-          cd my-app
-          IMAGE_TAG=$(git rev-parse --short HEAD)
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-
-      - name: Push Docker Image to Amazon ECR
-        id: push-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME_2 }}
           IMAGE_TAG: latest
         run: |
-          IMAGE_TAG=$(git rev-parse --short HEAD)
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          cd my-app
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
@@ -90,23 +91,29 @@ jobs:
 
       - name: Pull latest images
         env:
-          ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI}}
+          ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI_2}}
           ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME_2}}
           IMAGE_TAG: latest
         run: |
-          echo "${{ secrets.AWS_ECR_PASSWORD }}" | docker login -u ${{ secrets.AWS_ECR_USERNAME }} --password-stdin $ECR_LOGIN_URI -t 0
+          echo "${{ secrets.AWS_ECR_PASSWORD }}" | docker login $ECR_LOGIN_URI -u ${{ secrets.AWS_ECR_USERNAME }} --password-stdin
           docker pull $ECR_LOGIN_URI/$ECR_REPOSITORY:$IMAGE_TAG
+
+        # docker pull 823129822706.dkr.ecr.eu-north-1.amazonaws.com/studentperformance:latest
+
+      # - name: Stop and remove  container if running
+      #   run: |
+      #    docker ps -q --filter "name=mltest" | grep -q . && docker stop mltest && docker rm -fv mltest
 
       - name: Run Docker Image to serve users
         env:
-          ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI_2}}
-          ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME_2}}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+            ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI}}
+            ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME}}
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
 
         run: |
-          docker run -d -p 8080:8080 --ipc="host" --name=react_app -e 'AWS_ACCESS_KEY_ID=$aws-access-key-id' -e 'AWS_SECRET_ACCESS_KEY=$aws-secret-access-key' -e 'AWS_REGION=$aws-region'  $ECR_LOGIN_URI/$ECR_REPOSITORY:latest
+         docker run -d -p 8080:8080 --ipc="host" --name=mltest -e 'AWS_ACCESS_KEY_ID=$aws-access-key-id' -e 'AWS_SECRET_ACCESS_KEY=$aws-secret-access-key' -e 'AWS_REGION=$aws-region'  $ECR_LOGIN_URI/$ECR_REPOSITORY:latest
       - name: Clean previous images and containers
         run: |
-          docker system prune -f
+         docker system prune -f
