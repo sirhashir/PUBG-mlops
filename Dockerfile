@@ -1,12 +1,12 @@
-FROM python:3.8-alpine
-
+FROM python:3.8-slim-buster
 WORKDIR /app
 COPY . /app
-
-RUN apk add --no-cache ffmpeg libsm6 libxext6 && \
-    apk add --no-cache --virtual .build-deps gcc musl-dev libffi-dev openssl-dev && \
-    pip install --no-cache-dir -r requirements.txt && \
-    apk del .build-deps
+ 
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 unzip -y \
+    && pip install -r requirements.txt \
+    && apt-get remove -y unzip \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
 
 CMD ["python3", "app.py"]
 
