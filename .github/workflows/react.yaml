@@ -99,14 +99,14 @@ jobs:
 
       - name: Run Docker Image to serve users
         env:
-            ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI}}
-            ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME}}
+            ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI_2}}
+            ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME_2}}
             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ secrets.AWS_REGION }}
 
         run: |
-         docker run -d -p 8080:8080 --ipc="host" --name=mltest -e 'AWS_ACCESS_KEY_ID=$aws-access-key-id' -e 'AWS_SECRET_ACCESS_KEY=$aws-secret-access-key' -e 'AWS_REGION=$aws-region'  $ECR_LOGIN_URI/$ECR_REPOSITORY:latest
+          docker run -d -p 8080:8080 --ipc="host" --name=mltest -e 'AWS_ACCESS_KEY_ID=$aws-access-key-id' -e 'AWS_SECRET_ACCESS_KEY=$aws-secret-access-key' -e 'AWS_REGION=$aws-region'  $ECR_LOGIN_URI/$ECR_REPOSITORY:latest
       - name: Clean previous images and containers
         run: |
-         docker system prune -f
+          docker system prune -f
