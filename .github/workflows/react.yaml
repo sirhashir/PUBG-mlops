@@ -104,7 +104,7 @@ jobs:
             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ secrets.AWS_REGION }}
-
+          
         run: |
           docker run -d -p 8080:3000 --name=my-react-app my-react-image:latest
       - name: Clean previous images and containers
