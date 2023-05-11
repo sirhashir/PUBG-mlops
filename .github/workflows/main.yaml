@@ -11,6 +11,7 @@ on:
       - 'test.py'
       - 'src/**'
       - 'templates/**'
+      - '.github\workflows\main.yaml'
 
   repository_dispatch:
     types: [trigger-main-workflow]
@@ -35,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-      
+
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
@@ -104,27 +105,21 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Delete Previous build
-        run: |
-          if [ -n "$(docker ps -aq)" ]; then
-            docker stop $(docker ps -aq)
-            docker rm $(docker ps -aq)
-            docker rmi $(docker images -q)
-          fi
+      # - name: Delete Previous build
+      #   run: |
+      #     if [ -n "$(docker ps -aq)" ]; then
+      #       docker stop $(docker ps -aq)
+      #       docker rm $(docker ps -aq)
+      #       docker rmi $(docker images -q)
+      #     fi
       
-      - name: Pull latest images
+      - name: Pull Flask images
         env:
           ECR_LOGIN_URI: ${{secrets.AWS_ECR_LOGIN_URI}}
           ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY_NAME}}
           IMAGE_TAG: latest
         run: |
           docker pull $ECR_LOGIN_URI/$ECR_REPOSITORY:$IMAGE_TAG
-
-        # docker pull 823129822706.dkr.ecr.eu-north-1.amazonaws.com/studentperformance:latest
-         
-      # - name: Stop and remove  container if running
-      #   run: |
-      #    docker ps -q --filter "name=mltest" | grep -q . && docker stop mltest && docker rm -fv mltest
        
       - name: Run Docker Image to serve users
         env:

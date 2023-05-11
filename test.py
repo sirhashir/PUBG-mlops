@@ -40,3 +40,4 @@ def test_home(client):
 #     response = client.post('/predictdata', json=data)
 #     assert response.status_code == 200
 #     assert b'The prediction is' in response.data
+# Comment

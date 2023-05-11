@@ -7,6 +7,7 @@ on:
       - latest
     paths:
       - 'my-app/**'
+      - '.github\workflows\react.yaml'
 
 permissions:
   id-token: write
