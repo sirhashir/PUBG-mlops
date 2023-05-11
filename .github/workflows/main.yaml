@@ -11,7 +11,6 @@ on:
       - 'test.py'
       - 'src/**'
       - 'templates/**'
-      - '.github\workflows\main.yaml'
 
   repository_dispatch:
     types: [trigger-main-workflow]
