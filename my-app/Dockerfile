@@ -3,7 +3,7 @@ FROM node:14-alpine as builder
 WORKDIR /app
 
 COPY package*.json ./
-#comment
+ 
 RUN npm install
 
 COPY . .
@@ -14,6 +14,6 @@ FROM nginx:stable-alpine
 
 COPY --from=builder /app/build /usr/share/nginx/html
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
