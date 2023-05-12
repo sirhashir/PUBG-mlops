@@ -36,8 +36,21 @@ logging.basicConfig(format="%(asctime)s::%(levelname)s::%(message)s",
                     filename=LOG_FILE_PATH
                     )
 
-# logging.info("info log")
+
+# Define the logger instance
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Define the file handler and formatter
+file_handler = logging.FileHandler(LOG_FILE_PATH)
+formatter = logging.Formatter("%(asctime)s :: %(levelname)s :: %(message)s")
+file_handler.setFormatter(formatter)
+
+# Add the file handler to the logger instance
+logger.addHandler(file_handler)
+
+# logger.info("info log")
 # logging.warning("this is warning log")
 # logging.error("this is error log")
 
-logging.info(1)
+# logging.info(1)

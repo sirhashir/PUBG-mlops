@@ -6,6 +6,36 @@ from sklearn.preprocessing import StandardScaler
 
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 
+import logging
+from datetime import datetime
+import os
+
+LOG_FILE=f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
+logs_path=os.path.join(os.getcwd(),"logs",LOG_FILE)
+os.makedirs(logs_path,exist_ok=True)
+
+LOG_FILE_PATH=os.path.join(logs_path,LOG_FILE)
+
+
+logging.basicConfig(format="%(asctime)s::%(levelname)s::%(message)s",
+                    level=logging.INFO,
+                    filename=LOG_FILE_PATH
+                    )
+
+
+# Define the logger instance
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Define the file handler and formatter
+file_handler = logging.FileHandler(LOG_FILE_PATH)
+formatter = logging.Formatter("%(asctime)s :: %(levelname)s :: %(message)s")
+file_handler.setFormatter(formatter)
+
+# Add the file handler to the logger instance
+logger.addHandler(file_handler)
+
+
 application=Flask(__name__)
 
 app=application
@@ -17,7 +47,10 @@ def index():
     return render_template('index.html') 
 
 @app.route('/predictdata',methods=['GET','POST'])
+
+
 def predict_datapoint(): 
+    logger.info("app started")
     if request.method=='GET':
         return render_template('home.html')
     else:
@@ -52,6 +85,34 @@ def predict_datapoint():
         weaponsAcquired = data.get('weaponsAcquired'),
         matchType = data.get('matchType')
         )
+
+        assists = data.get('assists'),
+        boosts = data.get('boosts'),
+        headshotKills = data.get('headshotKills'),
+        kills = data.get('kills'),
+        longestKill = data.get('longestKill'),
+        matchDuration = data.get('matchDuration'),
+        revives = data.get('revives'),
+        teamKills = data.get('teamKills'),
+        vehicleDestroys = data.get('vehicleDestroys'),
+        walkDistance = data.get('walkDistance'),
+        weaponsAcquired = data.get('weaponsAcquired'),
+        matchType = data.get('matchType')
+
+        logger.info(assists)
+        logger.info(boosts)
+        logger.info(headshotKills)
+        logger.info(kills)
+        logger.info(longestKill)
+        logger.info(matchDuration)
+        logger.info(revives)
+        logger.info(teamKills)
+        logger.info(vehicleDestroys)
+        logger.info(walkDistance)
+        logger.info(weaponsAcquired)
+        logger.info(matchType)
+        
+
 
         pred_df=data_frame.get_data_as_data_frame()
         
