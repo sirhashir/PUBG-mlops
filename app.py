@@ -12,23 +12,6 @@ app=application
 
 CORS(app)
 
-## Route for a home page
-
-# class CustomData:
-#     def __init__(self, data):
-#         self.assists = data.get('assists')
-#         self.boosts = data.get('boosts')
-#         self.headshotKills = data.get('headshotKills')
-#         self.kills = data.get('kills')
-#         self.longestKill = data.get('longestKill')
-#         self.matchDuration = data.get('matchDuration')
-#         self.revives = data.get('revives')
-#         self.teamKills = data.get('teamKills')
-#         self.vehicleDestroys = data.get('vehicleDestroys')
-#         self.walkDistance = data.get('walkDistance')
-#         self.weaponsAcquired = data.get('weaponsAcquired')
-#         self.matchType = data.get('matchType')
-
 @app.route('/')
 def index():
     return render_template('index.html') 
@@ -42,6 +25,18 @@ def predict_datapoint():
         data = data.get('Headers')
         data = data.get('data')
         print(data.items())
+
+        # Check if all features are present
+        required_features = ['assists', 'boosts', 'headshotKills', 'kills', 'longestKill', 'matchDuration', 'revives', 'teamKills', 'vehicleDestroys', 'walkDistance', 'weaponsAcquired']
+        if not all(feature in data for feature in required_features):
+            return 'The model requires all input features to make accurate predictions.', 400
+        
+        # Check if matchType is valid
+        valid_match_types = ['solo', 'solo-fpp', 'duo', 'duo-fpp', 'squad', 'squad-fpp', 'normal-squad-fpp', 'flarefpp', 'normal-solo-fpp', 'crashfpp', 'normal-duo-fpp']
+        match_type = data.get('matchType')
+        if match_type not in valid_match_types:
+            return "The provided 'matchType' value is invalid. Allowed values are ['solo', 'solo-fpp', 'duo', 'duo-fpp', 'squad', 'squad-fpp'].", 400
+
 
         data_frame = CustomData(
         assists = data.get('assists'),
@@ -60,13 +55,10 @@ def predict_datapoint():
 
         pred_df=data_frame.get_data_as_data_frame()
         
-        print("Before Prediction")
-
-        
         predict_pipeline=PredictPipeline()
-        print("Mid Prediction")
         results=predict_pipeline.predict(pred_df)
-        print( results)
+        print(results)
+        
         # return render_template('home.html',results=results[0])
         return str(results[0])
     
