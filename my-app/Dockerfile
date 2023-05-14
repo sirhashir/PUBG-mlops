@@ -5,6 +5,8 @@ WORKDIR /app
 COPY package*.json ./
  
 RUN npm install
+# Install sweetalert2 package
+RUN npm install --save sweetalert2
 
 COPY . .
 
