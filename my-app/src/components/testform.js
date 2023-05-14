@@ -1,6 +1,7 @@
 import { useState } from "react";
-import axios from 'axios'
-
+import Swal from "sweetalert2";
+import axios from "axios";
+import "./myStyle.css";
 const TestFormm = () => {
   const [data, setData] = useState({
     assists: "",
@@ -16,25 +17,40 @@ const TestFormm = () => {
     weaponsAcquired: "",
     matchType: "",
   });
+
   // const [results, setResults] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://16.16.172.177:5000/predictdata", {
-        Headers:{
+    await axios
+      .post(
+        "http://127.0.0.1:5000/predictdata",
+        {
+          Headers: {
             "Content-Type": "application/json",
-            "cors": "no-cors",
-            "data": data
-        }
-    }, data)
-    .then((res) => {
-       window.alert(res.data);
-    })
-    .catch(err => console.log(err))
+            cors: "no-cors",
+            data: data,
+          },
+        },
+        data
+      )
+      .then((res) => {
+        Swal.fire(
+          "Prediction Calculated!",
+          `Your win prediction is: ${res.data*100}%`,
+          "success"
+        );
+      })
+      .catch((err) => console.log(err));
+  };
+  const myStyle = {
+    backgroundImage: "url('https://wallpaperaccess.com/full/825336.jpg')",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
   };
   return (
-    <div>
-      <div className="container-fluid">
+    <div style={myStyle}>
+      <div className="">
         {/* <div className='row'>
             <div className='col-8 bg-success h-25'>hy</div>
             <div className='col-3 bg-danger h-25'>hello</div>
@@ -42,165 +58,182 @@ const TestFormm = () => {
         </div> */}
         <div className="row justify-content-center">
           <div className="col-12">
-            <div className="card d-flex mx-auto my-5">
+            <div className=" d-flex mx-auto my-5">
               <div className="row">
-                <div className="col-md-5 col-12 c1 p-5">
-                  <div className="row mb-5 m-3">
-                    {" "}
-                    <img
-                      src="https://i.imgur.com/pFfTOwy.jpg"
-                      width="70vw"
-                      height="55vh"
-                      alt=""
-                    />{" "}
-                  </div>{" "}
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTh0cOvKAMLzitAHKOoiECLh5bmwiid_AKJhazc8aV9cg&s"
-                    // width="120vw"
-                    // height="210vh"
-                    className="mx-auto d-flex"
-                    alt="Teacher"
-                  />
+                <div className="col-md-4 col-12 c1 p-5">
                   <div className="row justify-content-center">
                     <div className="w-75 mx-md-5 mx-1 mx-sm-2 mb-5 mt-4 px-sm-5 px-md-2 px-xl-1 px-2">
-                      <h1 className="wlcm">Welcome to your Predictor</h1>{" "}
-                      <span className="sp1">
-                        {" "}
-                        <span className="px-3 bg-danger rounded-pill"></span>{" "}
-                        <span className="ml-2 px-1 rounded-circle"></span>{" "}
-                        <span className="ml-2 px-1 rounded-circle"></span>{" "}
-                      </span>
+                      <h1 className="wlcm" style={{ color: "white" }}>
+                        Welcome to PUBG win Predictor
+                      </h1>
+                      <span className="sp1"></span>
                     </div>
                   </div>
                 </div>
-                <div className="col-md-3 col-12 c2 px-5 pt-5">
+                <div className="col-md-4  px-5 pt-5">
                   <div className="row justify-content-center"></div>
                   <form onSubmit={handleSubmit}>
                     <h1>
-                      <legend>Player Stats</legend>
+                      <legend style={{ color: "white" }}>Player Stats</legend>
                     </h1>
                     <div className="row">
-                      <label htmlFor="assists">Assists:</label>
-                      <input
-                        type="number"
-                        id="assists"
-                        name="assists"
-                        value={data.assists}
-                        onChange={(e) =>
-                          setData({ ...data, assists: e.target.value })
-                        }
-                      />
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="assists">Assists:</label>
+                        <input
+                          type="number"
+                          id="assists"
+                          name="assists"
+                          value={data.assists}
+                          onChange={(e) =>
+                            setData({ ...data, assists: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
+
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="boosts">Boosts:</label>
+                        <input
+                          type="number"
+                          id="boosts"
+                          name="boosts"
+                          value={data.boosts}
+                          onChange={(e) =>
+                            setData({ ...data, boosts: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
                     </div>
+
                     <div className="row">
-                      <label htmlFor="boosts">Boosts:</label>
-                      <input
-                        type="number"
-                        id="boosts"
-                        name="boosts"
-                        value={data.boosts}
-                        onChange={(e) =>
-                          setData({ ...data, boosts: e.target.value })
-                        }
-                      />
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="headshotKills">Headshot Kills:</label>
+                        <input
+                          type="number"
+                          id="headshotKills"
+                          name="headshotKills"
+                          value={data.headshotKills}
+                          onChange={(e) =>
+                            setData({ ...data, headshotKills: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
+
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="kills">Kills:</label>
+                        <input
+                          type="number"
+                          id="kills"
+                          name="kills"
+                          value={data.kills}
+                          onChange={(e) =>
+                            setData({ ...data, kills: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
                     </div>
+
                     <div className="row">
-                      <label htmlFor="headshotKills">Headshot Kills:</label>
-                      <input
-                        type="number"
-                        id="headshotKills"
-                        name="headshotKills"
-                        value={data.headshotKills}
-                        onChange={(e) =>
-                          setData({ ...data, headshotKills: e.target.value })
-                        }
-                      />
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="longestKill">Longest Kill:</label>
+                        <input
+                          type="number"
+                          id="longestKill"
+                          name="longestKill"
+                          value={data.longestKill}
+                          onChange={(e) =>
+                            setData({ ...data, longestKill: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
+
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="matchDuration">Match Duration:</label>
+                        <input
+                          type="number"
+                          id="matchDuration"
+                          name="matchDuration"
+                          value={data.matchDuration}
+                          onChange={(e) =>
+                            setData({ ...data, matchDuration: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
                     </div>
+
                     <div className="row">
-                      {" "}
-                      <label htmlFor="kills">Kills:</label>
-                      <input
-                        type="number"
-                        id="kills"
-                        name="kills"
-                        value={data.kills}
-                        onChange={(e) =>
-                          setData({ ...data, kills: e.target.value })
-                        }
-                      />
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="revives">Revives:</label>
+                        <input
+                          type="number"
+                          id="revives"
+                          name="revives"
+                          value={data.revives}
+                          onChange={(e) =>
+                            setData({ ...data, revives: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
+
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="teamKills">Team Kills:</label>
+                        <input
+                          type="number"
+                          id="teamKills"
+                          name="teamKills"
+                          value={data.teamKills}
+                          onChange={(e) =>
+                            setData({ ...data, teamKills: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
                     </div>
+
                     <div className="row">
-                      <label htmlFor="longestKill">Longest Kill:</label>
-                      <input
-                        type="number"
-                        id="longestKill"
-                        name="longestKill"
-                        value={data.longestKill}
-                        onChange={(e) =>
-                          setData({ ...data, longestKill: e.target.value })
-                        }
-                      />
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="vehicleDestroys">
+                          Vehicle Destroys:
+                        </label>
+                        <input
+                          type="number"
+                          id="vehicleDestroys"
+                          name="vehicleDestroys"
+                          value={data.vehicleDestroys}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              vehicleDestroys: e.target.value,
+                            })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
+
+                      <div className="row " style={{ color: "white" }}>
+                        <label htmlFor="walkDistance">Walk Distance:</label>
+                        <input
+                          type="number"
+                          id="walkDistance"
+                          name="walkDistance"
+                          value={data.walkDistance}
+                          onChange={(e) =>
+                            setData({ ...data, walkDistance: e.target.value })
+                          }
+                          style={{ backgroundColor: "#C5C5C5" }}
+                        />
+                      </div>
                     </div>
+
                     <div className="row">
-                      <label htmlFor="matchDuration">Match Duration:</label>
-                      <input
-                        type="number"
-                        id="matchDuration"
-                        name="matchDuration"
-                        value={data.matchDuration}
-                        onChange={(e) =>
-                          setData({ ...data, matchDuration: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="row">
-                      <label htmlFor="revives">Revives:</label>
-                      <input
-                        type="number"
-                        id="revives"
-                        name="revives"
-                        value={data.revives}
-                        onChange={(e) =>
-                          setData({ ...data, revives: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="row">
-                      <label htmlFor="teamKills">Team Kills:</label>
-                      <input
-                        type="number"
-                        id="teamKills"
-                        name="teamKills"
-                        value={data.teamKills}
-                        onChange={(e) =>
-                          setData({ ...data, teamKills: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="row">
-                      <label htmlFor="vehicleDestroys">Vehicle Destroys:</label>
-                      <input
-                        type="number"
-                        id="vehicleDestroys"
-                        name="vehicleDestroys"
-                        value={data.vehicleDestroys}
-                        onChange={(e) =>
-                          setData({ ...data, vehicleDestroys: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="row">
-                      <label htmlFor="walkDistance">Walk Distance:</label>
-                      <input
-                        type="number"
-                        id="walkDistance"
-                        name="walkDistance"
-                        value={data.walkDistance}
-                        onChange={(e) =>
-                          setData({ ...data, walkDistance: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="row">
+
+                    <div className="row " style={{ color: "white" }}>
                       <label htmlFor="weaponsAcquired">Weapons Acquired:</label>
                       <input
                         type="number"
@@ -210,10 +243,11 @@ const TestFormm = () => {
                         onChange={(e) =>
                           setData({ ...data, weaponsAcquired: e.target.value })
                         }
+                        style={{ backgroundColor: "#C5C5C5" }}
                       />
                     </div>
-                    <div className="row">
-                      {" "}
+
+                    <div className="row " style={{ color: "white" }}>
                       <label htmlFor="matchType">Match Type:</label>
                       <select
                         id="matchType"
@@ -222,6 +256,7 @@ const TestFormm = () => {
                         onChange={(e) =>
                           setData({ ...data, matchType: e.target.value })
                         }
+                        style={{ backgroundColor: "#C5C5C5" }}
                         required
                       >
                         <option value="">--Select a Match Type--</option>
@@ -240,10 +275,12 @@ const TestFormm = () => {
                         <option value="normal-duo-fpp">Normal Duo FPP</option>
                       </select>
                     </div>
+                    </div>
+                    <div className="col-md-4 px-5 pt-5"></div>
 
-                    <div className="mb-3">
-                      <button className="btn btn-primary" type="submit">
-                        Predict your pubg Score
+                    <div className="mb-3 mt-3">
+                      <button className="btn button_gradient" type="submit">
+                        Predict your PUBG Score
                       </button>
                     </div>
                   </form>

@@ -1,0 +1,3 @@
+2023-05-14 13:20:24,640 :: INFO :: app started
+2023-05-14 13:20:24,640 :: INFO :: dict_items([('assists', '1'), ('boosts', '2'), ('headshotKills', '3'), ('kills', '1'), ('longestKill', '3'), ('matchDuration', '2'), ('revives', '2'), ('teamKills', '3'), ('vehicleDestroys', '2'), ('walkDistance', '1'), ('weaponsAcquired', '3'), ('matchType', 'crashfpp')])
+2023-05-14 13:20:25,762 :: INFO :: [0.40743625]

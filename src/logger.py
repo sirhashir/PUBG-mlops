@@ -39,7 +39,7 @@ logging.basicConfig(format="%(asctime)s::%(levelname)s::%(message)s",
 
 # Define the logger instance
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 # Define the file handler and formatter
 file_handler = logging.FileHandler(LOG_FILE_PATH)

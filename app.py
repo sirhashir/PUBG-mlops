@@ -5,35 +5,38 @@ from flask_cors import CORS
 from sklearn.preprocessing import StandardScaler
 
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
-
-import logging
-from datetime import datetime
-import os
-
-LOG_FILE=f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
-logs_path=os.path.join(os.getcwd(),"logs",LOG_FILE)
-os.makedirs(logs_path,exist_ok=True)
-
-LOG_FILE_PATH=os.path.join(logs_path,LOG_FILE)
+from src.logger import logger
 
 
-logging.basicConfig(format="%(asctime)s::%(levelname)s::%(message)s",
-                    level=logging.INFO,
-                    filename=LOG_FILE_PATH
-                    )
+
+# import logging
+# from datetime import datetime
+# import os
+
+# LOG_FILE=f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
+# logs_path=os.path.join(os.getcwd(),"logs",LOG_FILE)
+# os.makedirs(logs_path,exist_ok=True)
+
+# LOG_FILE_PATH=os.path.join(logs_path,LOG_FILE)
 
 
-# Define the logger instance
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+# logging.basicConfig(format="%(asctime)s::%(levelname)s::%(message)s",
+#                     level=logging.INFO,
+#                     filename=LOG_FILE_PATH
+#                     )
 
-# Define the file handler and formatter
-file_handler = logging.FileHandler(LOG_FILE_PATH)
-formatter = logging.Formatter("%(asctime)s :: %(levelname)s :: %(message)s")
-file_handler.setFormatter(formatter)
 
-# Add the file handler to the logger instance
-logger.addHandler(file_handler)
+# # Define the logger instance
+# logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
+
+# # Define the file handler and formatter
+# file_handler = logging.FileHandler(LOG_FILE_PATH)
+# formatter = logging.Formatter("%(asctime)s :: %(levelname)s :: %(message)s")
+# file_handler.setFormatter(formatter)
+
+# # Add the file handler to the logger instance
+# logger.addHandler(file_handler)
 
 
 application=Flask(__name__)
@@ -57,7 +60,8 @@ def predict_datapoint():
         data=request.get_json()
         data = data.get('Headers')
         data = data.get('data')
-        print(data.items())
+        # logger.info(data.items())
+        # print(data.items())
 
         # Check if all features are present
         required_features = ['assists', 'boosts', 'headshotKills', 'kills', 'longestKill', 'matchDuration', 'revives', 'teamKills', 'vehicleDestroys', 'walkDistance', 'weaponsAcquired']
@@ -118,7 +122,9 @@ def predict_datapoint():
         
         predict_pipeline=PredictPipeline()
         results=predict_pipeline.predict(pred_df)
-        print(results)
+        # print(results)
+        logger.info(results)
+
         
         # return render_template('home.html',results=results[0])
         return str(results[0])
