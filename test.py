@@ -24,9 +24,9 @@ def test_predict_datapoint(client):
     data = {
         "Headers": {
             "data": {
-                "assists": 0,
+                "assists": 1,
                 "boosts": 5,
-                "headshotKills": 1,
+                "headshotKills": 10,
                 "kills": 10,
                 "longestKill": 500,
                 "matchDuration": 1200,
