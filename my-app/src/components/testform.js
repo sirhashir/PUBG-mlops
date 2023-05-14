@@ -24,7 +24,7 @@ const TestFormm = () => {
     e.preventDefault();
     await axios
       .post(
-        "http://127.0.0.1:5000/predictdata",
+        "https://16.16.172.177:5000/predictdata",
         {
           Headers: {
             "Content-Type": "application/json",
