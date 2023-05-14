@@ -24,7 +24,7 @@ const TestFormm = () => {
     e.preventDefault();
     await axios
       .post(
-        "https://16.16.172.177:5000/predictdata",
+        "http://16.16.172.177:5000/predictdata",
         {
           Headers: {
             "Content-Type": "application/json",
@@ -40,6 +40,8 @@ const TestFormm = () => {
           `Your win prediction is: ${res.data*100}%`,
           "success"
         );
+        console.log(res.data)
+        window.alert(res.data*100)
       })
       .catch((err) => console.log(err));
   };
