@@ -19,3 +19,5 @@ COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
+# configuration options (-g "daemon off;"), which prevents the 
+# server from running as a background daemon and allows the container to remain active.

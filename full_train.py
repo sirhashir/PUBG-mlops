@@ -63,7 +63,7 @@ class DataIngestion:
             train_set.to_csv(self.ingestion_config.train_data_path)
             test_set.to_csv(self.ingestion_config.test_data_path)
 
-#             FOR GITHUB SAVE 
+#           FOR GITHUB SAVE 
             save_csv(self.ingestion_config.train_data_path, train_set)
             save_csv(self.ingestion_config.test_data_path, test_set)           
 
@@ -365,7 +365,7 @@ def save_csv(file_path, data):
     # Create a Github instance using the Personal Access Token
     g = Github(os.environ['FULL_ACCESS'])
     # Get the repository that you want to work with
-    repo = g.get_repo("Yuvraj-Sharma-2000/PUBG-mlops")
+    repo = g.get_repo("sirhashir/PUBG-mlops")
 
     try:
         # Try to get the contents of the file

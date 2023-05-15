@@ -41,7 +41,6 @@ const TestFormm = () => {
           "success"
         );
         console.log(res.data)
-        window.alert(res.data*100)
       })
       .catch((err) => console.log(err));
   };
