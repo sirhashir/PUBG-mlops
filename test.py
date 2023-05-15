@@ -75,7 +75,7 @@ def test_predict_datapoint_with_invalid_matchtype(client):
                 "assists": 1,
                 "boosts": 2,
                 "headshotKills": 1,
-                "kills": 1,
+                "kills": 12,
                 "longestKill": 10.5,
                 "matchDuration": 2000,
                 "revives": 0,
